@@ -72,6 +72,15 @@ func GenerateCreateRoleInput(name string, p *v1beta1.RoleParameters) *iam.Create
 	return m
 }
 
+// GeneratePutRolePolicyInput from RoleSpec
+// func GeneratePutRolePolicyInput(name string, p *v1beta1.RoleParameters) *iam.PutRolePolicyInput {
+// 	m := &iam.PutRolePolicyInput{
+// 		RoleName: aws.String(name),
+
+// 	}
+// 	return m
+// }
+
 // GenerateInlineRolePolicyInput is used to produce PutRolePolicyInput from iamtypes.Role
 func GenerateInlineRolePolicyInput(name string, p *v1beta1.RoleParameters) *iam.PutRolePolicyInput {
 	// TODO: accept an array of policies???
