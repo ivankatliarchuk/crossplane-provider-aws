@@ -78,6 +78,24 @@ spec:
                   description:
                     description: Description is a description of the role.
                     type: string
+                  inlinePolicies:
+                    description: InlinePolicies the inline policies attached to a
+                      role. For more information, see Inline policies (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html)
+                    items:
+                      description: Contains information about an IAM policy, including
+                        the policy document.
+                      properties:
+                        name:
+                          description: The name of the policy.
+                          type: string
+                        policy:
+                          description: The policy document.
+                          type: string
+                      required:
+                      - name
+                      - policy
+                      type: object
+                    type: array
                   maxSessionDuration:
                     description: 'MaxSessionDuration is the duration (in seconds)
                       that you want to set for the specified role. The default maximum

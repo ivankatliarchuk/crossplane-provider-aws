@@ -18,6 +18,7 @@ package role
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsiam "github.com/aws/aws-sdk-go-v2/service/iam"
@@ -162,7 +163,10 @@ func (e *external) Create(ctx context.Context, mgd resource.Managed) (managed.Ex
 
 	cr.Status.SetConditions(xpv1.Creating())
 
+	fmt.Printf("iam(Create)\n")
+
 	_, err := e.client.CreateRole(ctx, iam.GenerateCreateRoleInput(meta.GetExternalName(cr), &cr.Spec.ForProvider))
+
 	return managed.ExternalCreation{}, awsclient.Wrap(err, errCreate)
 }
 
@@ -175,6 +179,8 @@ func (e *external) Update(ctx context.Context, mgd resource.Managed) (managed.Ex
 	observed, err := e.client.GetRole(ctx, &awsiam.GetRoleInput{
 		RoleName: aws.String(meta.GetExternalName(cr)),
 	})
+
+	fmt.Printf("iam(Update)\n")
 
 	if err != nil {
 		return managed.ExternalUpdate{}, awsclient.Wrap(resource.Ignore(iam.IsErrorNotFound, err), errGet)
@@ -263,6 +269,9 @@ func (e *external) Delete(ctx context.Context, mgd resource.Managed) error {
 	}
 
 	cr.Status.SetConditions(xpv1.Deleting())
+
+	// TODO: remove inline policy
+	fmt.Printf("iam(Delete)\n")
 
 	_, err := e.client.DeleteRole(ctx, &awsiam.DeleteRoleInput{
 		RoleName: aws.String(meta.GetExternalName(cr)),

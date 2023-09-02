@@ -45,6 +45,16 @@ type Tag struct {
 	Value string `json:"value,omitempty"`
 }
 
+// Contains information about an IAM policy, including the policy document.
+type InlinePolicy struct {
+	// The name of the policy.
+	Name string `json:"name"`
+	// The policy document.
+	Policy string `json:"policy"`
+}
+
+// TODO: create in pkg/clients/iam/inlinepolicyattachment.go
+
 // RoleParameters define the desired state of an AWS IAM Role.
 type RoleParameters struct {
 
@@ -52,6 +62,12 @@ type RoleParameters struct {
 	// that grants an entity permission to assume the role.
 	// +immutable
 	AssumeRolePolicyDocument string `json:"assumeRolePolicyDocument"`
+
+	// InlinePolicies the inline policies attached to a role.
+	// For more information,
+	// see Inline policies (https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html)
+	// +optional
+	InlinePolicies []InlinePolicy `json:"inlinePolicies,omitempty"`
 
 	// Description is a description of the role.
 	// +optional
